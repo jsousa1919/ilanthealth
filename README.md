@@ -11,17 +11,51 @@ npm
 
 ### Environment
 
+Install FastAPI requirements
+
+```
+pipenv install
+```
+
+Or specifically:
+
 ```
 pipenv install fastapi
 pipenv install "uvicorn[standard]"
+pipenv install requests
+```
+
+Install NextJS requirements
+
+```
 npm install next@latest react@latest react-dom@latest&__overlay
+```
+
+Install Tailwind
+
+```
+npm install -D tailwindcss
 ```
 
 ## Execution
 
+### Tailwind css
+
+Build with:
+
+```
+tailwindcss -i ./style/input.css -o ./public/ilanhealth.css
+```
+
+Optionally for dev environments, watch css/nextjs files:
+
+```
+npm run watchtw
+```
+
 ### NextJS web application
 
-For development environments:
+For dev environments, watch python files:
 
 ```
 npm run dev

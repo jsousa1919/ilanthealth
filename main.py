@@ -1,29 +1,27 @@
 import json
+import requests
 from typing import Union
 
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from books_api import query_books_api
+
 
 app = FastAPI()
 
-BOOKS = {
-    1: {'id': 1, 'title': 'The Colour of Magic', 'author': 'Terry Pratchett'},
-    2: {'id': 2, 'title': 'The Golden Compass', 'author': 'Philip Pullman'}
-}
-
 @app.get("/")
-def get_book_list():
-    return list(BOOKS.values())
+def get_book_list(query: str = ''):
+    if not query:
+        raise StarletteHTTPException(
+            status_code=400,
+            detail='Missing query'
+        )
+    res = query_books_api('volumes', q=query)
+    return res.json()
 
 @app.get("/book/{book_id}")
-def get_book(book_id: int):
-    return BOOKS.get(book_id, {})
-
-@app.exception_handler(StarletteHTTPException)
-def exception_handler(request: Request, exc: StarletteHTTPException):
-    return Response(
-        content=json.dumps({'status': 'exception', 'code': exc.status_code}),
-        status_code=exc.status_code
-    )
+def get_book(book_id: str):
+    res = query_books_api('volumes', book_id)
+    return res.json()

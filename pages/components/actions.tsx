@@ -1,13 +1,28 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider, connect } from 'react-redux';
-import thunk from 'redux-thunk';
+import React from 'react';
 
 export const SET_QUERY = 'SET_QUERY';
 export const START_REQUEST = 'START_REQUEST';
 export const BOOKS_RECEIVED = 'BOOKS_RECEIVED';
 export const BOOKS_FAILED = 'BOOKS_FAILED';
+
+
+const API_URL: string = 'https://ilanthealth-api.netscaping.com/';
+
+export function getBooksThunk() {
+  return (dispatch, getState) => {
+    const {
+      query,
+    } = getState();
+
+    dispatch(requestStarted());
+
+    axios.get(API_URL, { params: { query } }).then(
+      response => dispatch(booksReceived(response.data)),
+      error => dispatch(booksFailed(error.detail))
+    );
+  };
+};
 
 const setQuery = (query) => ({
   type: SET_QUERY,
@@ -28,32 +43,23 @@ const booksFailed = (error) => ({
   error,
 });
 
-const API_URL = 'https://ilanthealth-api.netscaping.com/';
-export function getBooksThunk() {
-  return (dispatch, getState) => {
-    const {
-      query,
-    } = getState();
-
-    dispatch(requestStarted());
-
-    axios.get(API_URL, { params: { query } }).then(
-      response => dispatch(booksReceived(response.data)),
-      error => dispatch(booksFailed(error.detail))
-    );
-  };
-};
-
-export function updateQueryThunk(value) {
+let requestTimeout;
+export function updateQueryThunk(query) {
   return (dispatch, getState) => {
     const {
       loading,
+      lastRequest,
     } = getState();
 
-    dispatch(setQuery(value));
+    clearTimeout(requestTimeout);
+    dispatch(setQuery(query));
 
-    if (!loading) {
-      dispatch(getBooksThunk());
+    if (!loading && query) {
+      requestTimeout = setTimeout(() => {
+        dispatch(getBooksThunk());
+      }, 1000);
     }
   };
 };
+
+

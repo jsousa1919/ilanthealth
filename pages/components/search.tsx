@@ -1,8 +1,5 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider, connect } from 'react-redux';
-import thunk from 'redux-thunk';
+import React from 'react';
+import { connect } from 'react-redux';
 import { updateQueryThunk } from './actions';
 
 function SearchComponent({ dispatch, query, onUpdateQuery }) {

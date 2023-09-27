@@ -1,7 +1,6 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import ListComponent from './components/list.tsx';
 import SearchComponent from './components/search.tsx';
@@ -19,12 +18,16 @@ const store = createStore(booksReducer, applyMiddleware(thunk));
 
 export default function Index() {
   return (
-    <Provider store={store}>
-      <div className="p-2">
-        <HeaderComponent />
-        <SearchComponent />
-        <ListComponent />
-      </div>
-    </Provider>
+    <React.StrictMode>
+      <Provider className="p-2" store={store}>
+        <div className="p-2">
+          <HeaderComponent />
+          <SearchComponent />
+          <div className="book-list p-2 md:p-8">
+            <ListComponent />
+          </div>
+        </div>
+      </Provider>
+    </React.StrictMode>
   );
 };

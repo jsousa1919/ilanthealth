@@ -1,5 +1,11 @@
 # Ilanthealth Book Repository
 
+A live search for books from the Google Books API
+Built with NextJS, React Redux, and FastAPI
+Hosted on AWS behind an Nginx Server
+
+Hosted live at https://ilanthealth.netscaping.com/
+
 ## Prerequisites
 
 ### System

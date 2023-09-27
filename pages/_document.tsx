@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <link href="/ilanhealth.css" rel="stylesheet" />
+        <link href="/ilanthealth.css" rel="stylesheet" />
       </Head>
       <body>
         <Main />

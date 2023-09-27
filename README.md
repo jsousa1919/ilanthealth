@@ -25,15 +25,15 @@ pipenv install "uvicorn[standard]"
 pipenv install requests
 ```
 
-Install NextJS requirements
+Install NPM packages
+```
+npm install
+```
+
+Or specifically install NextJS and Tailwind requirements
 
 ```
-npm install next@latest react@latest react-dom@latest&__overlay
-```
-
-Install Tailwind
-
-```
+npm install next@latest react@latest react-dom@latest&__overlay react-redux redux-thunk axios
 npm install -D tailwindcss
 ```
 
